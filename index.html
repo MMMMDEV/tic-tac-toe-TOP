@@ -7,9 +7,25 @@
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="normalize.css">
-    <script src="javascript.js"></script>
+    <script src="javascript.js" defer></script>
 </head>
 <body>
-    
+    <div class="main">
+        <div class="board o" id="board">
+            <div class="cell x" data-cell></div>
+            <div class="cell o" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+        </div>
+        <div class="win-section" id="winSection">
+            <div data-win-text>X Wins!</div>
+            <button id="restartBtn">Restart</button>
+        </div>
+    </div>
 </body>
 </html>
