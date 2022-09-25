@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta&family=Poppins&display=swap');
+
 :root {
     --main-color: rgb(232, 232, 232);
-    --accent-color: ;
     --cell-size: 100px;
-    --symbol-size: calc(var(--cell-size) * 0.9); 
+    --symbol-size: calc(var(--cell-size) * 0.8); 
 }
 
 *, *::before, *::after {
@@ -37,21 +38,33 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    bottom: 75%;
-    gap: 30px;
+    top: 10%;
+    gap: 40px;
+    font-family: 'Poppins', sans-seri
 }
 
 .turnBtns button {
-    width: 100px;
-    height: 50px;
+    width: 120px;
+    height: 60px;
     cursor: pointer;
+    border: 0px solid black;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: -2px -2px 4px 1px black;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.turnBtns button:active {
+    translate: -2px -2px;
+    box-shadow: none;
 }
 
 /* board and symbols */
 
 .board {
-    width: 100vh;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: grid;
     justify-content: center;
     align-content: center;
@@ -113,6 +126,7 @@ body {
     width: calc(var(--symbol-size) * .15);
     height: var(--symbol-size);
     position: absolute;
+    border-radius: 5px;
 }
 
 .cell.x::before,
@@ -150,25 +164,149 @@ body {
 /* win section overlay */
 
 .win-section {
+    width: 100%;
+    height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     font-size: 4rem;
 }
 
 .win-section button {
+    width: 180px;
+    height: 75px;
     font-size: 3rem;
     cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.win-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
 }
 
 .win-section.active {
     display: flex;
+    gap: 20px;
+}
+
+/* phone landscpae */
+@media only screen and (min-width: 600px) {
+    :root {
+        --cell-size: 70px;
+    }
+
+    .turnBtns button {
+        width: 110px;
+        height: 50px;
+    }
+
+    .board {
+        align-content:flex-end;
+        padding-bottom: 30px;
+    }
+}
+
+/* tablet portrait */
+@media only screen and (min-height: 1000px) {
+    :root {
+        --cell-size: 140px;
+    }
+
+    .turnBtns button {
+        width: 120px;
+        height: 60px;
+    }
+
+    .board {
+        align-content:center;
+    }
+
+    .win-section {
+        font-size: 5rem;
+    }
+
+    .win-section button {
+        width: 240px;
+        height: 80px;
+        font-size: 3.5rem;
+    }
+
+    .win-section.active {
+        gap: 50px;
+    }
+}
+
+/* tablet landsacpe */
+@media only screen and (min-width: 1000px) {
+    :root {
+        --cell-size: 105px;
+    }
+
+    .turnBtns button {
+        width: 120px;
+        height: 60px;
+    }
+
+    .board {
+        align-content:center;
+    }
+}
+
+/* desktop portrait */
+@media only screen and (min-height: 1600px) {
+    .turnBtns {
+        top: 20%;
+        gap: 80px;
+    }
+
+    .win-section {
+        font-size: 5rem;
+    }
+
+    .win-section button {
+        width: 240px;
+        height: 80px;
+        font-size: 3.5rem;
+    }
+
+    .win-section.active {
+        gap: 50px;
+    }
+}
+
+/* tablet landsacpe */
+@media only screen and (min-width: 1600px) {
+    :root {
+        --cell-size: 170px;
+    }
+
+    .turnBtns button {
+        width: 150px;
+        height: 80px;
+        font-size: 1.4rem;
+    }
+
+    .win-section {
+        font-size: 5rem;
+    }
+
+    .win-section button {
+        width: 240px;
+        height: 80px;
+        font-size: 3.5rem;
+    }
+
+    .win-section.active {
+        gap: 50px;
+    }
 }
