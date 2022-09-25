@@ -68,7 +68,6 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    cursor: not-allowed;
 }
 
 .cell:first-child,

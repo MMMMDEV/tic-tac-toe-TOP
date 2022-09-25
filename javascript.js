@@ -32,19 +32,19 @@ function startGame() {
         cell.classList.remove(X_CLASS);
         cell.classList.remove(O_CLASS);
         cell.removeEventListener("click", handleClick);
-        cell.addEventListener("click", handleClick, { once: true})
+        cell.style.cursor = "not-allowed";
+        xButton.style.cursor = "pointer";
+        oButton.style.cursor = "pointer";
     });
-    turn();
     winSection.classList.remove("active");
     setBoardHoverClass();
+    turn();
 }
 
 
 function handleClick(e) {
     const cell = e.target;
     const currentClass = oTurn ? O_CLASS : X_CLASS;
-
-    
 
     placeSym(cell, currentClass);
 
@@ -55,6 +55,8 @@ function handleClick(e) {
     } else {
         setBoardHoverClass();
     }
+
+    AI(currentClass);
 };
 
 function endGame(draw) {
@@ -77,27 +79,94 @@ function placeSym(cell, currentClass) {
     cell.classList.add(currentClass);
 };
 
+function AI(currentClass) {
+    switch (currentClass) {
+        case O_CLASS:
+            let openSpots = [];
+            for (let i = 0; i <= cells.length - 1; i++) {
+                if (cells[i].classList.contains("x") === false && cells[i].classList.contains("o") === false) {
+                    openSpots.push(i);
+                };
+            };
+            let xSpot = Math.floor(Math.random() * openSpots.length);
+            let xPosition = openSpots[xSpot];
+            cells[xPosition].classList.add(X_CLASS);
+            cells[xPosition].removeEventListener("click", handleClick);
+            cells[xPosition].style.cursor = "not-allowed";
+            if (checkWin(X_CLASS)) {
+                oTurn = false;
+                endGame(false);
+            } else if (isDraw()) {
+                endGame(true);
+            } else {
+                setBoardHoverClass();
+            }
+            break;
+        case X_CLASS:
+            let xCount = 0;
+            for (let i = 0; i <= cells.length - 1; i++) {
+                if (cells[i].classList.contains("x") === false && cells[i].classList.contains("o") === false) {
+                    openSpots.push(i);
+                };
+            };
+            let oSpot = Math.floor(Math.random() * openSpots.length);
+            let oPosition = openSpots[oSpot];
+            if (xCount >= 1) {
+                cells[oPosition].classList.add(O_CLASS);
+                cells[oPosition].removeEventListener("click", handleClick);
+                cells[oPosition].style.cursor = "not-allowed";
+            };
+            if (checkWin(X_CLASS)) {
+                oTurn = true;
+                endGame(false);
+            } else if (isDraw()) {
+                endGame(true);
+            } else {
+                setBoardHoverClass();
+            }
+            xCount++;
+            break;
+    }
+}
+
 // turn choosing
 function turn() {
-    xButton.addEventListener("click", e => {
+
+    function xTurn() {
         oTurn = false;
+        const currentClass = oTurn ? O_CLASS : X_CLASS;
+        AI(currentClass);//x turn AI not working
         xButton.style.cursor = "not-allowed";
         oButton.style.cursor = "not-allowed";
         cells.forEach(cell => {
             cell.style.cursor = "pointer";
+            cell.addEventListener("click", handleClick, { once: true})
         });
-        setBoardHoverClass(); },
-        {once: true});
-    
-    oButton.addEventListener("click", e => {
+        setBoardHoverClass();
+        oButton.removeEventListener("click", OTurn);};
+        
+    function OTurn() {
         oTurn = true;
+        const currentClass = oTurn ? O_CLASS : X_CLASS;
+        AI(currentClass);
         xButton.style.cursor = "not-allowed";
         oButton.style.cursor = "not-allowed";
         cells.forEach(cell => {
             cell.style.cursor = "pointer";
+            cell.addEventListener("click", handleClick, { once: true});
+            if(cell.classList.contains("x") === true) {
+                cell.removeEventListener("click", handleClick);
+                cell.style.cursor = "not-allowed";
+            };
         });
-        setBoardHoverClass(); },
-        {once: true});
+        setBoardHoverClass();
+        xButton.removeEventListener("click", xTurn);
+        };
+
+    xButton.addEventListener("click", xTurn, {once : true});
+    
+    oButton.addEventListener("click", OTurn, {once : true});
+
 } 
 
 // end of turn choosing
