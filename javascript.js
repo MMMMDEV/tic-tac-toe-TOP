@@ -82,18 +82,21 @@ function placeSym(cell, currentClass) {
 function AI(currentClass) {
     switch (currentClass) {
         case O_CLASS:
-            let openSpots = [];
+            let openOSpots = [];
             for (let i = 0; i <= cells.length - 1; i++) {
                 if (cells[i].classList.contains("x") === false && cells[i].classList.contains("o") === false) {
-                    openSpots.push(i);
+                    openOSpots.push(i);
                 };
             };
-            let xSpot = Math.floor(Math.random() * openSpots.length);
-            let xPosition = openSpots[xSpot];
+            let xSpot = Math.floor(Math.random() * openOSpots.length);
+            let xPosition = openOSpots[xSpot];
             cells[xPosition].classList.add(X_CLASS);
             cells[xPosition].removeEventListener("click", handleClick);
             cells[xPosition].style.cursor = "not-allowed";
-            if (checkWin(X_CLASS)) {
+            if (checkWin(O_CLASS)) {
+                oTurn = true;
+                endGame(false);
+            } else if (checkWin(X_CLASS)) {
                 oTurn = false;
                 endGame(false);
             } else if (isDraw()) {
@@ -103,28 +106,34 @@ function AI(currentClass) {
             }
             break;
         case X_CLASS:
-            let xCount = 0;
-            for (let i = 0; i <= cells.length - 1; i++) {
-                if (cells[i].classList.contains("x") === false && cells[i].classList.contains("o") === false) {
-                    openSpots.push(i);
+            let openXSpots = [];
+            XOnBoard = false;
+            cells.forEach(cell => {
+                if (cell.classList.contains("x")) {
+                    XOnBoard = true;
+                }
+                
+            });
+            if (XOnBoard === true) {
+                for (let i = 0; i <= cells.length - 1; i++) {
+                    if (cells[i].classList.contains("x") === false && cells[i].classList.contains("o") === false) {
+                        openXSpots.push(i);
+                    };
                 };
-            };
-            let oSpot = Math.floor(Math.random() * openSpots.length);
-            let oPosition = openSpots[oSpot];
-            if (xCount >= 1) {
+                let oSpot = Math.floor(Math.random() * openXSpots.length);
+                let oPosition = openXSpots[oSpot];
                 cells[oPosition].classList.add(O_CLASS);
                 cells[oPosition].removeEventListener("click", handleClick);
                 cells[oPosition].style.cursor = "not-allowed";
-            };
-            if (checkWin(X_CLASS)) {
-                oTurn = true;
-                endGame(false);
-            } else if (isDraw()) {
-                endGame(true);
-            } else {
-                setBoardHoverClass();
-            }
-            xCount++;
+                };
+                if (checkWin(O_CLASS)) {
+                    oTurn = true;
+                    endGame(false);
+                } else if (isDraw()) {
+                    endGame(true);
+                } else {
+                    setBoardHoverClass();
+                };
             break;
     }
 }
@@ -135,7 +144,7 @@ function turn() {
     function xTurn() {
         oTurn = false;
         const currentClass = oTurn ? O_CLASS : X_CLASS;
-        AI(currentClass);//x turn AI not working
+        AI(currentClass);
         xButton.style.cursor = "not-allowed";
         oButton.style.cursor = "not-allowed";
         cells.forEach(cell => {
