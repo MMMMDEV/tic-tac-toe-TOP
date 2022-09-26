@@ -177,7 +177,7 @@ body {
 }
 
 .win-section button {
-    width: 180px;
+    width: 200px;
     height: 75px;
     font-size: 3rem;
     cursor: pointer;
@@ -202,12 +202,12 @@ body {
 /* phone landscpae */
 @media only screen and (min-width: 600px) {
     :root {
-        --cell-size: 70px;
+        --cell-size: 50px;
     }
 
     .turnBtns button {
-        width: 110px;
-        height: 50px;
+        width: 100px;
+        height: 40px;
     }
 
     .board {
